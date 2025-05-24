@@ -54,6 +54,8 @@ deepseek(){
 	local o
 	o=`cat /tmp/deepseek.out | jq -r '.choices[].message.content'`
 	echo "== cmd is: $o"
+	o="${o//$'\n'/}"
+	o="${o//\"/\\\"}"
 	input_to_bash "$o"
 }
 
