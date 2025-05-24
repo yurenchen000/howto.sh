@@ -93,7 +93,25 @@ c_howto2(){
 	READLINE_POINT=${#READLINE_LINE}
 }
 
+
+## check if sourced
+is_sourced(){
+    [ "$0" != "$BASH_SOURCE" ]
+}
+
+is_sourced || {
+  echo -e "  Usage: \e[033m source $0\e[0m"
+  echo -e "  Usage: \e[033m source $0 bind1\e[0m"
+  echo -e "  Usage: \e[033m source $0 bind2\e[0m"
+  exit 1
+}
+
 # use one of:
 #  bind -x '"\C-g": "c_howto"'
 #  bind -x '"\C-g": "c_howto2"'
+
+#echo "\$1: $1"
+[ "$1" == "bind1" ] && bind -x '"\C-g": "c_howto"'
+[ "$1" == "bind2" ] && bind -x '"\C-g": "c_howto2"'
+
 
