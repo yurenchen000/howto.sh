@@ -42,5 +42,6 @@ bind -x '"\C-g": "c_howto2"'
 then input the search string, for example:
 
 $ find files modified today
+
 then press `Ctrl+G` to trigger completion
 
