@@ -4,6 +4,7 @@ howto.sh
 the bash version of
 https://github.com/antonmedv/howto
 
+[![asciicast](https://asciinema.org/a/B43e3pPcFEqYt3QdnAhGB6TTN.svg)](https://asciinema.org/a/B43e3pPcFEqYt3QdnAhGB6TTN)
 
 ## usage
 in bash
