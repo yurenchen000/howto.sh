@@ -40,7 +40,7 @@ deepseek(){
 
 	echo -n 'running..'
 	## send request
-	curl https://api.deepseek.com/v1/chat/completions --no-progress-meter \
+	curl https://api.deepseek.com/v1/chat/completions --silent \
 		-H "Content-Type: application/json"  -H "Authorization: Bearer $DEEPSEEK_APIKEY"   -d \
  '{
     "model": "deepseek-chat",
