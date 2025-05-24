@@ -26,9 +26,9 @@ EOF
 
 ## input to bash
 input_to_bash(){
-  local cmd="$1"
-  bind '"\e[0n": "'"$cmd"'"'
-  printf "\e[5n"
+	local cmd="$1"
+	bind '"\e[0n": "'"$cmd"'"'
+	printf "\e[5n"
 }
 
 ## query deepseek
@@ -38,28 +38,29 @@ deepseek(){
 	w=`prompt "$w"`
 	w="${w//$'\n'/\\n}"
 
+	echo -n 'running..'
 	## send request
-	curl https://api.deepseek.com/v1/chat/completions  -H "Content-Type: application/json"   -H "Authorization: Bearer $DEEPSEEK_APIKEY"   -d \
+	curl https://api.deepseek.com/v1/chat/completions --no-progress-meter \
+		-H "Content-Type: application/json"  -H "Authorization: Bearer $DEEPSEEK_APIKEY"   -d \
  '{
     "model": "deepseek-chat",
     "messages": [
       {"role": "user", "content": "'"$w"'"}
     ],
     "temperature": 0.2, "max_tokens": 50
-  }' | tee /tmp/deepseek.out
+  }' > /tmp/deepseek.out
 
 	## parse result
-	echo
-	echo
+	#echo
 	local o
 	o=`cat /tmp/deepseek.out | jq -r '.choices[].message.content'`
-	echo "== cmd is: $o"
+	echo -e "\r== cmd is: \e[32m$o\e[0m"
 	HOWTO_RESULT="$o"
 }
 
 howto(){
 	local o
-	echo "==query: $*"
+	echo -e "== howto: \e[33m$*\e[0m"
 	deepseek "$*"
 	o="$HOWTO_RESULT"
 	o="${o//$'\n'/}"
@@ -70,7 +71,7 @@ howto(){
 ## show howto cmd in cli
 c_howto(){
 	local o
-	#echo "==howto: $READLINE_LINE"
+	#echo "== howto: $READLINE_LINE"
 	#deepseek "$READLINE_LINE"
 	READLINE_LINE='howto '"$READLINE_LINE"
 	READLINE_POINT=${#READLINE_LINE}
@@ -82,7 +83,7 @@ c_howto(){
 ## not show howto cmd in cli
 c_howto2(){
 	local o
-	echo -e "==howto: \e[33m$READLINE_LINE\e[0m"
+	echo -e "== howto: \e[33m$READLINE_LINE\e[0m"
 	deepseek "$READLINE_LINE"
 
 	o="$HOWTO_RESULT"
