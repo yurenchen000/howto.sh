@@ -45,7 +45,7 @@ deepseek(){
     "messages": [
       {"role": "user", "content": "'"$w"'"}
     ],
-    "temperature": 0.3, "max_tokens": 50
+    "temperature": 0.2, "max_tokens": 50
   }' | tee /tmp/deepseek.out
 
 	## parse result
@@ -54,12 +54,45 @@ deepseek(){
 	local o
 	o=`cat /tmp/deepseek.out | jq -r '.choices[].message.content'`
 	echo "== cmd is: $o"
+	HOWTO_RESULT="$o"
+}
+
+howto(){
+	local o
+	echo "==query: $*"
+	deepseek "$*"
+	o="$HOWTO_RESULT"
 	o="${o//$'\n'/}"
 	o="${o//\"/\\\"}"
 	input_to_bash "$o"
 }
 
-howto(){
-	deepseek "$@"
+## show howto cmd in cli
+c_howto(){
+	local o
+	#echo "==howto: $READLINE_LINE"
+	#deepseek "$READLINE_LINE"
+	READLINE_LINE='howto '"$READLINE_LINE"
+	READLINE_POINT=${#READLINE_LINE}
+	#input_to_bash 'howto '"$READLINE_LINE"
+	input_to_bash $'\n'
+	return
 }
+
+## not show howto cmd in cli
+c_howto2(){
+	local o
+	echo -e "==howto: \e[33m$READLINE_LINE\e[0m"
+	deepseek "$READLINE_LINE"
+
+	o="$HOWTO_RESULT"
+	o="${o//$'\n'/}"
+	o="${o//\"/\\\"}"
+	READLINE_LINE="$o"
+	READLINE_POINT=${#READLINE_LINE}
+}
+
+# use one of:
+#  bind -x '"\C-g": "c_howto"'
+#  bind -x '"\C-g": "c_howto2"'
 
