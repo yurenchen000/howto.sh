@@ -40,7 +40,8 @@ deepseek(){
 
 	echo -n 'running..'
 	## send request
-	curl https://api.deepseek.com/v1/chat/completions --silent \
+	local o
+	o=`curl https://api.deepseek.com/v1/chat/completions --silent \
 		-H "Content-Type: application/json"  -H "Authorization: Bearer $DEEPSEEK_APIKEY"   -d \
  '{
     "model": "deepseek-chat",
@@ -48,12 +49,12 @@ deepseek(){
       {"role": "user", "content": "'"$w"'"}
     ],
     "temperature": 0.2, "max_tokens": 50
-  }' > /tmp/deepseek.out
+  }'`
 
+	[ -n "$HOWTO_DEBUG" ] && echo "$o" >/tmp/deepseek.out
 	## parse result
 	#echo
-	local o
-	o=`cat /tmp/deepseek.out | jq -r '.choices[].message.content'`
+	o=`echo "$o" | jq -r '.choices[].message.content'`
 	echo -e "\r== cmd is: \e[32m$o\e[0m"
 	HOWTO_RESULT="$o"
 }
