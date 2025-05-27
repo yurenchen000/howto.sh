@@ -3,14 +3,24 @@
 # Do not run, just
 #   source this script into your current interactive bash
 # And
-#   export DEEPSEEK_APIKEY='your deepseek apikey'
+#   export HOWTO_APIKEY='your deepseek apikey'
 # Run demo
 #   howto 'find files modified today'
 
+## for OpenAI
+# HOWTO_APIURL='https://api.openai.com/v1/chat/completions'
+# HOWTO_APIKEY='YOUR OPENAI APIKEY'
+# HOWTO_MODEL='gpt-4o'
 
-prompt(){
+## for DeepSeek
+HOWTO_APIURL='https://api.deepseek.com/v1/chat/completions'
+HOWTO_APIKEY=${HOWTO_APIKEY:-'YOUR DEEPSEEK APIKEY'}
+HOWTO_MODEL=${HOWTO_MODEL:-'deepseek-chat'}
+
+HOWTO_OS=${HOWTO_OS:-linux}
+
+howto_prompt(){
 	local CMD=$1
-	local OS=${2:-linux}
 	cat <<EOF
 You are a command line assistant that can help users with their tasks.
 User want assistance with the following command:
@@ -18,7 +28,7 @@ User want assistance with the following command:
 $CMD
 
 Assistant should respond with a command that can be used to achieve the desired result.
-Command shoud be suitable for $OS OS.
+Command shoud be suitable for $HOWTO_OS OS.
 Output only the command, do not include any additional text. 
 Do not include any quotes or backticks in the output.
 EOF
@@ -35,20 +45,20 @@ input_to_bash(){
 deepseek(){
 	local w=$1
 	w="${w//\"/\\\"}"
-	w=`prompt "$w"`
+	w=`howto_prompt "$w"`
 	w="${w//$'\n'/\\n}"
 
 	echo -n 'running..'
 	## send request
 	local o
-	o=`curl https://api.deepseek.com/v1/chat/completions --silent \
-		-H "Content-Type: application/json"  -H "Authorization: Bearer $DEEPSEEK_APIKEY"   -d \
+	o=`curl "$HOWTO_APIURL" --silent \
+		-H "Content-Type: application/json"  -H "Authorization: Bearer $HOWTO_APIKEY"   -d \
  '{
-    "model": "deepseek-chat",
+    "model": "'"$HOWTO_MODEL"'",
     "messages": [
       {"role": "user", "content": "'"$w"'"}
     ],
-    "temperature": 0.2, "max_tokens": 50
+    "temperature": 0.2, "max_tokens": 100
   }'`
 
 	[ -n "$HOWTO_DEBUG" ] && echo "$o" >/tmp/deepseek.out
@@ -111,6 +121,7 @@ is_sourced || {
 #  bind -x '"\C-g": "c_howto"'
 #  bind -x '"\C-g": "c_howto2"'
 
+## Ctrl+G to completion
 #echo "\$1: $1"
 [ "$1" == "bind1" ] && bind -x '"\C-g": "c_howto"'
 [ "$1" == "bind2" ] && bind -x '"\C-g": "c_howto2"'
