@@ -15,7 +15,7 @@ in bash
 ### 1. setup
 ```bash
 $ source deepseek.sh  bind1
-$ DEEPSEEK_APIKEY='your deepseek apikey'
+$ HOWTO_APIKEY='your deepseek apikey'
 ```
 
 <br>
