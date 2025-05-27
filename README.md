@@ -4,26 +4,37 @@ howto.sh
 the bash version of
 https://github.com/antonmedv/howto
 
-[![asciicast](https://asciinema.org/a/B43e3pPcFEqYt3QdnAhGB6TTN.svg)](https://asciinema.org/a/B43e3pPcFEqYt3QdnAhGB6TTN)
+
+[![asciicast demo1](https://asciinema.org/a/721054.svg)](https://asciinema.org/a/721054)
+
+[![asciicast demo2](https://asciinema.org/a/721064.svg)](https://asciinema.org/a/721064)
 
 ## usage
 in bash
 
 ### 1. setup
 ```bash
-$ source deepseek.sh
+$ source deepseek.sh  bind1
 $ DEEPSEEK_APIKEY='your deepseek apikey'
 ```
 
+<br>
+
 ### 2. usage demo
 ```bash
-$ howto 'find files modified today'
+$ howto find files modified today
 == cmd is: find / -type f -mtime 0
 $ find / -type f -mtime 0      <=== this line input by script
 ```
 
 deepseek query is slow (about 4 seconds)
 
+<br>
+
+
+> TIPS: `Ctrl + G` will prepend `howto` cmd and run
+
+<br>
 
 ### 3. use ctrl+g completion
 
