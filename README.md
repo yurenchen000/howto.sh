@@ -56,3 +56,9 @@ $ find files modified today
 
 then press `Ctrl+G` to trigger completion
 
+<br>
+
+## Other Bash Script
+
+[![other bash repos](https://res.ez2.fun/svg/repos-bash_script.svg)](https://github.com/yurenchen000/yurenchen000/blob/main/repos.md#bash-scripts)
+
