@@ -21,18 +21,33 @@ $ HOWTO_APIKEY='your deepseek apikey'
 <br>
 
 ### 2. usage demo
-```bash
+
+```console
 $ howto find files modified today
 == cmd is: find / -type f -mtime 0
-$ find / -type f -mtime 0      <=== this line input by script
+$ find / -type f -mtime 0      <### this line auto-inputed by howto.sh, omitted in later
+
+$ howto git clone use ssh:// for 'ssh android@localhost -p 4022' /tmp/test1
+$                              <### sometime i forget the git url scheme
+== cmd is: git clone ssh://android@localhost:4022/tmp/test1
+
+$ howto convert demo2.gif to demo2.mp4, frame rate 30, twitter compatible  
+$                              <### i guess no one remember all the parameters
+== cmd is: ffmpeg -i demo2.gif -vf "fps=30,scale=trunc(iw/2)*2:trunc(ih/2)*2" -c:v libx264 -pix_fmt yuv420p demo2.mp4
 ```
 
+<br>
+
+note1:
+AI may make mistakes, check before pressing Enter
+
+note2:
 deepseek query is slow (about 4 seconds)
 
 <br>
 
 
-> TIPS: `Ctrl + G` will prepend `howto` cmd and run
+> TIPS: `Ctrl + G` will prepend `howto` cmd and query
 
 <br>
 
