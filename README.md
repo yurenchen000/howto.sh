@@ -13,9 +13,17 @@ https://github.com/antonmedv/howto
 in bash
 
 ### 1. setup
+
 ```bash
 $ source deepseek.sh  bind1
+
+## for DeepSeek
 $ HOWTO_APIKEY='your deepseek apikey'
+
+## for OpenAI (or compatible api)
+$ HOWTO_APIURL='https://api.openai.com/v1/chat/completions'
+$ HOWTO_APIKEY='YOUR OPENAI APIKEY'
+$ HOWTO_MODEL='gpt-4o'
 ```
 
 <br>
