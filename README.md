@@ -20,6 +20,8 @@ $ HOWTO_APIKEY='your deepseek apikey'
 
 <br>
 
+more usage [demo wiki](https://github.com/yurenchen000/howto.sh/wiki)
+
 ### 2. usage demo
 
 ```console
