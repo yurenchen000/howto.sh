@@ -52,6 +52,7 @@ qwen(){
 	local QUERY="$*"
 	[ -n "$HOWTO_APIURL" ] || HOWTO_APIURL='https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation'
 
+	[ -n "$HOWTO_DEBUG" ] && echo "== HOWTO_APIURL: $HOWTO_APIURL"
 	echo -n 'running..'
 	## send request
 	local o
@@ -97,6 +98,7 @@ deepseek(){
 		esac
 	}
 
+	[ -n "$HOWTO_DEBUG" ] && echo "== HOWTO_APIURL: $HOWTO_APIURL"
 	echo -n 'running..'
 	## send request
 	local o
@@ -120,7 +122,7 @@ deepseek(){
 
 howto(){
 	local o
-	echo -e "== howto: \e[33m$*\e[0m"
+	echo -e "== howto ($HOWTO_MODEL): \e[33m$*\e[0m"
 
 	case "$HOWTO_MODEL" in
 	  qwen*) qwen     "$*" ;;
