@@ -101,13 +101,13 @@ deepseek(){
 	local o
 	o=`curl "$HOWTO_APIURL" --silent \
 		-H "Content-Type: application/json"  -H "Authorization: Bearer $HOWTO_APIKEY"   -d \
- '{
-    "model": "'"$HOWTO_MODEL"'",
-    "messages": [
-      {"role": "user", "content": "'"$w"'"}
-    ],
-    "temperature": 0.2, "max_tokens": 100
-  }'`
+	'{
+	   "model": "'"$HOWTO_MODEL"'",
+	   "messages": [
+	     {"role": "user", "content": "'"$w"'"}
+	   ],
+	   "temperature": 0.2, "max_tokens": 100
+	 }'`
 
 	[ -n "$HOWTO_DEBUG" ] && echo "$o" >/tmp/deepseek.out
 	## parse result
@@ -161,14 +161,14 @@ c_howto2(){
 
 ## check if sourced
 is_sourced(){
-    [ "$0" != "$BASH_SOURCE" ]
+	[ "$0" != "$BASH_SOURCE" ]
 }
 
 is_sourced || {
-  echo -e "  Usage: \e[033m source $0\e[0m"
-  echo -e "  Usage: \e[033m source $0 bind1\e[0m"
-  echo -e "  Usage: \e[033m source $0 bind2\e[0m"
-  exit 1
+	echo -e "  Usage: \e[033m source $0\e[0m"
+	echo -e "  Usage: \e[033m source $0 bind1\e[0m"
+	echo -e "  Usage: \e[033m source $0 bind2\e[0m"
+	exit 1
 }
 
 # use one of:
