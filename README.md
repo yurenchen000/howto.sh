@@ -15,16 +15,24 @@ in bash
 ### 1. setup
 
 ```bash
-$ source deepseek.sh  bind1
+$ source howto.sh  bind1
 
-## for DeepSeek
+## for DeepSeek (is slow)
 $ HOWTO_APIKEY='your deepseek apikey'
+$ HOWTO_MODEL=${HOWTO_MODEL:-'deepseek-chat'}
 
 ## for OpenAI (or compatible api)
 $ HOWTO_APIURL='https://api.openai.com/v1/chat/completions'
 $ HOWTO_APIKEY='YOUR OPENAI APIKEY'
 $ HOWTO_MODEL='gpt-4o'
+
+## for Qwen (Pretty fast, Not openai compatible)
+$ HOWTO_APIURL='https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation'
+$ HOWTO_APIKEY=${HOWTO_APIKEY:-'YOUR QWEN APIKEY'}
+$ HOWTO_MODEL=${HOWTO_MODEL:-'qwen-turbo'}
 ```
+
+NOTE: `HOWTO_APIURL` can be omitted (guess from `HOWTO_MODEL`)
 
 <br>
 
