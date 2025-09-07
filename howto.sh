@@ -12,10 +12,15 @@
 # HOWTO_APIKEY='YOUR OPENAI APIKEY'
 # HOWTO_MODEL='gpt-4o'
 
-## for DeepSeek
-HOWTO_APIURL='https://api.deepseek.com/v1/chat/completions'
+## for DeepSeek (is slow)
+# HOWTO_APIURL='https://api.deepseek.com/v1/chat/completions'
 HOWTO_APIKEY=${HOWTO_APIKEY:-'YOUR DEEPSEEK APIKEY'}
 HOWTO_MODEL=${HOWTO_MODEL:-'deepseek-chat'}
+
+## for Qwen (Pretty fast, Not openai compatible)
+# HOWTO_APIURL='https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation'
+# HOWTO_APIKEY=${HOWTO_APIKEY:-'YOUR QWEN APIKEY'}
+# HOWTO_MODEL=${HOWTO_MODEL:-'qwen-turbo'}
 
 HOWTO_OS=${HOWTO_OS:-linux}
 
@@ -50,9 +55,9 @@ qwen(){
 	## send request
 	local o
 	o=`curl -s "$HOWTO_APIURL" --silent \
-	-H "Content-Type: application/json" -H "Authorization: Bearer $API_KEY" -d \
+	    -H "Content-Type: application/json" -H "Authorization: Bearer $API_KEY" -d \
 	'{
-	  "model": "qwen-turbo",
+	  "model": "'"$HOWTO_MODEL"'",
 	  "input": {
 	    "messages": [
 	      {
@@ -82,6 +87,14 @@ deepseek(){
 	w="${w//\"/\\\"}"
 	w=`howto_prompt "$w"`
 	w="${w//$'\n'/\\n}"
+
+	[ -n "$HOWTO_APIURL" ] || {
+		case "$HOWTO_MODEL" in
+		  deepseek*) HOWTO_APIURL='https://api.deepseek.com/v1/chat/completions' ;;
+		       gpt*) HOWTO_APIURL='https://api.openai.com/v1/chat/completions' ;;
+		          *) echo "❌ Unsupported model: $HOWTO_MODEL"; return 1 ;;
+		esac
+	}
 
 	echo -n 'running..'
 	## send request
