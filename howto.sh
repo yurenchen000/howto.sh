@@ -41,7 +41,42 @@ input_to_bash(){
 	printf "\e[5n"
 }
 
-## query deepseek
+## query qwen
+qwen(){
+	local QUERY="$*"
+	[ -n "$HOWTO_APIURL" ] || HOWTO_APIURL='https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation'
+
+	echo -n 'running..'
+	## send request
+	local o
+	o=`curl -s "$HOWTO_APIURL" --silent \
+	-H "Content-Type: application/json" -H "Authorization: Bearer $API_KEY" -d \
+	'{
+	  "model": "qwen-turbo",
+	  "input": {
+	    "messages": [
+	      {
+	        "role": "system",
+	        "content": "你是一个 Linux 命令行专家。请直接输出最简洁、准确、安全的 bash 命令或脚本，不要解释，除非用户要求。避免使用 rm -rf / 等危险命令。"
+	      },
+	      {
+	        "role": "user",
+	        "content": "'"$QUERY"'"
+	      }
+	    ]
+	  },
+	  "parameters": { "result_format": "message" }
+	}'`
+
+	[ -n "$HOWTO_DEBUG" ] && echo "$o" >/tmp/deepseek.out
+	## parse result
+	#echo
+	o=`echo "$o" | jq -r '.output.choices[0].message.content // .output.text // "❌ 调用失败，请检查网络或API Key"'`
+	echo -e "\r== cmd is: \e[32m$o\e[0m"
+	HOWTO_RESULT="$o"
+}
+
+## query deepseek OR openai
 deepseek(){
 	local w=$1
 	w="${w//\"/\\\"}"
@@ -72,7 +107,13 @@ deepseek(){
 howto(){
 	local o
 	echo -e "== howto: \e[33m$*\e[0m"
-	deepseek "$*"
+
+	case "$HOWTO_MODEL" in
+	  qwen*) qwen     "$*" ;;
+	      *) deepseek "$*" ;;
+	esac
+
+	#deepseek "$*"
 	o="$HOWTO_RESULT"
 	o="${o//$'\n'/}"
 	o="${o//\"/\\\"}"
