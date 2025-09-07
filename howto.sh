@@ -124,10 +124,17 @@ howto(){
 	local o
 	echo -e "== howto ($HOWTO_MODEL): \e[33m$*\e[0m"
 
+	local t0 t1
+	# t0=$(date +%s%3N)
+	t0=$EPOCHREALTIME
+
 	case "$HOWTO_MODEL" in
 	  qwen*) qwen     "$*" ;;
 	      *) deepseek "$*" ;;
 	esac
+
+	t1=$EPOCHREALTIME
+	[ -n "$HOWTO_DEBUG" ] && awk "BEGIN {printf \"== cost %.2f sec\n\", $t1 - $t0}"
 
 	#deepseek "$*"
 	o="$HOWTO_RESULT"
