@@ -30,6 +30,19 @@ $ HOWTO_MODEL='gpt-4o'
 $ HOWTO_APIURL='https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation'
 $ HOWTO_APIKEY=${HOWTO_APIKEY:-'YOUR QWEN APIKEY'}
 $ HOWTO_MODEL=${HOWTO_MODEL:-'qwen-turbo'}
+
+
+## qwen models
+HOWTO_MODEL='qwen-flash'
+
+HOWTO_MODEL='qwen-turbo'
+HOWTO_MODEL='qwen-turbo-latest' ## fine
+
+HOWTO_MODEL='qwen-plus'
+HOWTO_MODEL='qwen-plus-latest'  ## fine 2
+
+HOWTO_MODEL='qwen-max-latest'   ## fine
+HOWTO_MODEL='qwen-max'          ## fine 2
 ```
 
 NOTE: `HOWTO_APIURL` can be omitted (guess from `HOWTO_MODEL`)
