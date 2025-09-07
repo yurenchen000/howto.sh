@@ -63,7 +63,7 @@ qwen(){
 	    "messages": [
 	      {
 	        "role": "system",
-	        "content": "你是一个 Linux 命令行专家。请直接输出最简洁、准确、安全的 bash 命令或脚本，不要解释，除非用户要求。避免使用 rm -rf / 等危险命令。"
+	        "content": "你是一个 '"$HOWTO_OS"' 命令行专家。请直接输出最简洁、准确、安全的 bash 命令或脚本，不要解释，除非用户要求。避免使用 rm -rf / 等危险命令。"
 	      },
 	      {
 	        "role": "user",
