@@ -25,6 +25,10 @@ HOWTO_MODEL=${HOWTO_MODEL:-'deepseek-chat'}
 HOWTO_OS=${HOWTO_OS:-linux}
 # HOWTO_DEBUG=1  ## save api output for debug
 
+howto_dir=`dirname $(readlink -f $BASH_SOURCE)`
+[ -f "$howto_dir/.env" ] && . "$howto_dir/.env"
+
+
 howto_prompt(){
 	local CMD=$1
 	cat <<EOF
@@ -57,7 +61,7 @@ qwen(){
 	## send request
 	local o
 	o=`curl -s "$HOWTO_APIURL" --silent \
-	    -H "Content-Type: application/json" -H "Authorization: Bearer $API_KEY" -d \
+	    -H "Content-Type: application/json" -H "Authorization: Bearer $HOWTO_APIKEY" -d \
 	'{
 	  "model": "'"$HOWTO_MODEL"'",
 	  "input": {
