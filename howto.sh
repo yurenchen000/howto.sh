@@ -23,6 +23,7 @@ HOWTO_MODEL=${HOWTO_MODEL:-'deepseek-chat'}
 # HOWTO_MODEL=${HOWTO_MODEL:-'qwen-turbo'}
 
 HOWTO_OS=${HOWTO_OS:-linux}
+# HOWTO_DEBUG=1  ## save api output for debug
 
 howto_prompt(){
 	local CMD=$1
@@ -73,7 +74,7 @@ qwen(){
 	  "parameters": { "result_format": "message" }
 	}'`
 
-	[ -n "$HOWTO_DEBUG" ] && echo "$o" >/tmp/deepseek.out
+	[ -n "$HOWTO_DEBUG" ] && echo "$o" >/tmp/howto.out
 	## parse result
 	#echo
 	o=`echo "$o" | jq -r '.output.choices[0].message.content // .output.text // "❌ 调用失败，请检查网络或API Key"'`
@@ -109,7 +110,7 @@ deepseek(){
 	   "temperature": 0.2, "max_tokens": 100
 	 }'`
 
-	[ -n "$HOWTO_DEBUG" ] && echo "$o" >/tmp/deepseek.out
+	[ -n "$HOWTO_DEBUG" ] && echo "$o" >/tmp/howto.out
 	## parse result
 	#echo
 	o=`echo "$o" | jq -r '.choices[].message.content'`
